@@ -1,3 +1,5 @@
+'use client'
+
 export interface IChainInfo {
   id: string
   chainId: number
@@ -37,8 +39,8 @@ export const chains: IChainInfo[] = [
   },
 ]
 
-export const chainById: { [key: string]: IChainInfo } = {}
+export const chainByChainId: { [key: number]: IChainInfo } = {}
 
 for (const chain of chains) {
-  chainById[chain.id] = chain
+  chainByChainId[chain.chainId] = chain
 }

@@ -3,23 +3,11 @@
 import { Box, Center, Flex, HStack, SimpleGrid, Stack, Text, VStack } from '@chakra-ui/layout'
 import { CircularProgress } from '@chakra-ui/progress'
 import { Spinner } from '@chakra-ui/spinner'
-import { JsonRpcProvider } from 'ethers'
 import NextImage from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
-import { chainById, chains, IChainInfo } from '@/lib/chains'
-
-const getChainLastBlock = async (chain: IChainInfo): Promise<{ lastBlock: number; chain: string }> => {
-  try {
-    const provider = new JsonRpcProvider(chain.rpcUrl, chain.chainId)
-
-    const lastBlock = await provider.getBlockNumber()
-
-    return { chain: chain.id, lastBlock }
-  } catch (error) {
-    return { chain: chain.id, lastBlock: -1 }
-  }
-}
+import { fetchChainLastBlock } from '@/hooks'
+import { chainByChainId, chains, IChainInfo } from '@/lib'
 
 function ChainPanel({
   chain,
@@ -88,7 +76,7 @@ export function ChainsBlocks() {
 
   const [chainsInfo, setChainsInfo] = useState<
     | {
-        chain: string
+        chain: number
         indexed_blocks: number
         last_block: number
       }[]
@@ -96,9 +84,9 @@ export function ChainsBlocks() {
   >(undefined)
 
   const fetchData = useCallback(async () => {
-    const chainsLastBlocksResponse = await Promise.all(chains.map((chain) => getChainLastBlock(chain)))
+    const chainsLastBlocksResponse = await Promise.all(chains.map((chain) => fetchChainLastBlock(chain)))
 
-    const chainsLastBlocks: { [k: string]: number } = {}
+    const chainsLastBlocks: { [k: number]: number } = {}
 
     for (const chain of chainsLastBlocksResponse) {
       chainsLastBlocks[chain.chain] = chain.lastBlock
@@ -107,25 +95,26 @@ export function ChainsBlocks() {
     const data = await fetch('https://indexer-api.kindynos.mx/status')
 
     const chainsBlocks: {
-      chain: string
-      indexed_blocks: number
-      last_block: number
-    }[] = await data.json()
+      data: {
+        chain: number
+        indexed_blocks: number
+      }[]
+    } = await data.json()
 
     const chainsInfo: {
-      chain: string
+      chain: number
       indexed_blocks: number
       last_block: number
     }[] = []
 
-    for (const { chain, indexed_blocks: indexedBlocks } of chainsBlocks) {
-      const chainData = chainById[chain]
+    for (const { chain, indexed_blocks: indexedBlocks } of chainsBlocks.data) {
+      const chainData = chainByChainId[chain]
       if (!chainData) {
         continue
       }
 
       chainsInfo.push({
-        chain: chainData.id,
+        chain: chainData.chainId,
         indexed_blocks: indexedBlocks,
         last_block: chainsLastBlocks[chain],
       })
@@ -152,7 +141,7 @@ export function ChainsBlocks() {
               chainsInfo.map((chainInfo) => (
                 <HStack key={`ChainInfo_${chainInfo.chain}`} justifyContent="center">
                   <ChainPanel
-                    chain={chainById[chainInfo.chain]}
+                    chain={chainByChainId[chainInfo.chain]}
                     indexed_blocks={chainInfo.indexed_blocks}
                     last_block={chainInfo.last_block}
                   />

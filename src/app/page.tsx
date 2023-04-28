@@ -1,19 +1,16 @@
 'use client'
 
-import { Box, Center, Heading, Text, VStack } from '@chakra-ui/layout'
-import Link from 'next/link'
+import { Box, Container, Heading, Text, VStack } from '@chakra-ui/layout'
 
 import { ChainsBlocks } from '@/components'
 
 export default function Home() {
   return (
-    <Center height="calc(100vh)" width="calc(100vw)">
+    <Container height="calc(100vh)" width="calc(100vw)">
       <VStack>
-        <Text fontSize="2xl" fontWeight="bold" marginTop="10" textAlign="center">
-          <Link href="/">
-            <Heading>EVM Indexer</Heading>
-          </Link>
-        </Text>
+        <Heading fontSize="2xl" fontWeight="bold" marginTop="10" textAlign="center">
+          EVM Indexer
+        </Heading>
 
         <Box width="full">
           <Text fontSize="md" fontWeight="regular" padding="2" textAlign="center">
@@ -22,6 +19,6 @@ export default function Home() {
           <ChainsBlocks />
         </Box>
       </VStack>
-    </Center>
+    </Container>
   )
 }
