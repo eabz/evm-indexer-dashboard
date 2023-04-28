@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 const description = 'Dashboard for the EVM indexer current indexing state'
 
-const url = 'https://dashboard.kindynos.mx'
+const url = 'https://indexer.kindynos.mx'
 
 const title = 'EVM Indexer'
 
@@ -21,7 +21,7 @@ export const defaultMetadata: Metadata = {
       { sizes: '152x152', type: 'image/png', url: '/static/apple-icon-152x152.png' },
       { sizes: '180x180', type: 'image/png', url: '/static/apple-icon-180x180.png' },
     ],
-    icon: [{ url: '/static/apple-icon.png' }, new URL('/static/apple-icon.png', 'https://dashboard.kindynos.mx')],
+    icon: [{ url: '/static/apple-icon.png' }, new URL('/static/apple-icon.png', 'https://indexer.kindynos.mx')],
     other: {
       rel: 'apple-icon-precomposed',
       url: '/static/apple-icon-precomposed.png',
