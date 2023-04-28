@@ -1,0 +1,64 @@
+{
+  "name": "@kindynosmx/evm-indexer-dashboard",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Dashboard for the EVM indexer current indexing state",
+  "license": "MIT",
+  "scripts": {
+    "build": "next build",
+    "dev": "next",
+    "format": "prettier --ignore-path .gitignore --ignore-path .prettierignore '**/*.{md,json,js,jsx,ts,tsx}' --write",
+    "prepare": "husky install",
+    "lint": "eslint --ignore-path .gitignore --ignore-path .eslintignore --cache --cache-location .husky/.eslintcache/ \"**/*.{js,jsx,ts,tsx}\" --max-warnings=0",
+    "lint:locales": "eslint --ext .json --no-eslintrc --config .eslintrc.i18n-json.js --format node_modules/eslint-plugin-i18n-json/formatter.js src/locales/",
+    "start": "next start",
+    "tscheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "yarn lint --fix"
+    ],
+    "locales/*.json": [
+      "yarn lint:locales --fix"
+    ]
+  },
+  "dependencies": {
+    "@chakra-ui/next-js": "^2.1.2",
+    "@chakra-ui/react": "^2.5.5",
+    "@ducanh2912/next-pwa": "^8.2.0",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@sentry/nextjs": "^7.49.0",
+    "ethers": "^6.3.0",
+    "framer-motion": "^10.12.4",
+    "lodash": "^4.17.21",
+    "next": "^13.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^13.3.0",
+    "@next/eslint-plugin-next": "^13.3.0",
+    "@types/node": "^18.15.12",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "eslint": "^8.38.0",
+    "eslint-config-next": "^13.3.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-chakra-ui": "^0.8.0",
+    "eslint-plugin-i18n-json": "^4.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-sort-keys-custom-order-fix": "^0.1.1",
+    "eslint-plugin-storybook": "^0.6.11",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4"
+  }
+}
