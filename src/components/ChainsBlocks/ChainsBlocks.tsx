@@ -294,7 +294,7 @@ export function ChainsBlocks() {
                       Indexed Blocks
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.blocks}
+                      {globalInformation.blocks.toLocaleString()}
                     </Text>
                   </Box>
                 </HStack>
@@ -304,7 +304,7 @@ export function ChainsBlocks() {
                       Transactions
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.transactions}
+                      {globalInformation.transactions.toLocaleString()}
                     </Text>
                   </Box>
                   <Box width="120px">
@@ -312,7 +312,7 @@ export function ChainsBlocks() {
                       Receipts
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.receipts}
+                      {globalInformation.receipts.toLocaleString()}
                     </Text>
                   </Box>
                 </HStack>
@@ -322,7 +322,7 @@ export function ChainsBlocks() {
                       Contracts
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.contracts}
+                      {globalInformation.contracts.toLocaleString()}
                     </Text>
                   </Box>
                   <Box width="120px">
@@ -330,7 +330,7 @@ export function ChainsBlocks() {
                       ERC20 Transfers
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.erc20_transfers}
+                      {globalInformation.erc20_transfers.toLocaleString()}
                     </Text>
                   </Box>
                 </HStack>
@@ -340,7 +340,7 @@ export function ChainsBlocks() {
                       DEX Trades
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.dex_trades}
+                      {globalInformation.dex_trades.toLocaleString()}
                     </Text>
                   </Box>
                   <Box width="120px">
@@ -348,7 +348,7 @@ export function ChainsBlocks() {
                       ERC721 Transfers
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.erc721_transfers}
+                      {globalInformation.erc721_transfers.toLocaleString()}
                     </Text>
                   </Box>
                 </HStack>
@@ -358,7 +358,7 @@ export function ChainsBlocks() {
                       ERC1155 Transfers
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.erc1155_transfers}
+                      {globalInformation.erc1155_transfers.toLocaleString()}
                     </Text>
                   </Box>
                   <Box width="120px">
@@ -366,7 +366,7 @@ export function ChainsBlocks() {
                       Logs
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.logs}
+                      {globalInformation.logs.toLocaleString()}
                     </Text>
                   </Box>
                 </HStack>
