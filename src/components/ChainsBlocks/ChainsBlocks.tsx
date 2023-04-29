@@ -53,7 +53,7 @@ function ChainPanel({
               Last Chain Block
             </Text>
             <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {chainData.last_block === -1 ? 'Error' : chainData.last_block}
+              {chainData.last_block === -1 ? 'Error' : chainData.last_block.toLocaleString()}
             </Text>
           </Box>
           <Box width="120px">
@@ -61,7 +61,7 @@ function ChainPanel({
               Indexed Blocks
             </Text>
             <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {chainData.blocks}
+              {chainData.blocks.toLocaleString()}
             </Text>
           </Box>
         </HStack>
