@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/react'
 
+import { QueryProvider } from '@/components'
 import { ThemeProvider } from '@/theme'
 import { defaultMetadata } from '@/utils'
 
@@ -10,7 +11,9 @@ export default async function RootLayout({ children }) {
     <html>
       <body>
         <Analytics />
-        <ThemeProvider>{children}</ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   )

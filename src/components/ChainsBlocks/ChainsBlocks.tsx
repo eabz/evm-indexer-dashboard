@@ -4,21 +4,31 @@ import { Box, Center, Flex, HStack, SimpleGrid, Stack, Text, VStack } from '@cha
 import { CircularProgress } from '@chakra-ui/progress'
 import { Spinner } from '@chakra-ui/spinner'
 import NextImage from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { fetchChainLastBlock } from '@/hooks'
-import { chainByChainId, chains, IChainInfo } from '@/lib'
+import { useChainLastBlock, useChainsInfo } from '@/hooks'
+import { chainByChainId, IChainInfo } from '@/lib'
 
 function ChainPanel({
   chain,
-  last_block,
-  indexed_blocks,
+  chainData,
 }: {
   chain: IChainInfo
-  indexed_blocks: number
-  last_block: number
+  chainData: {
+    blocks: number
+    chain: number
+    contracts: number
+    transactions: number
+    dex_trades: number
+    erc20_transfers: number
+    erc721_transfers: number
+    receipts: number
+    last_block: number
+    logs: number
+    erc1155_transfers: number
+  }
 }) {
-  const progress = last_block === -1 ? 0 : (indexed_blocks / last_block) * 100
+  const progress = chainData.last_block === -1 ? 0 : (chainData.blocks / chainData.last_block) * 100
 
   return (
     <Box
@@ -43,7 +53,7 @@ function ChainPanel({
               Last Chain Block
             </Text>
             <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {last_block === -1 ? 'Error' : last_block}
+              {chainData.last_block === -1 ? 'Error' : chainData.last_block}
             </Text>
           </Box>
           <Box width="120px">
@@ -51,7 +61,79 @@ function ChainPanel({
               Indexed Blocks
             </Text>
             <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {indexed_blocks}
+              {chainData.blocks}
+            </Text>
+          </Box>
+        </HStack>
+        <HStack>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              Transactions
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.transactions.toLocaleString()}
+            </Text>
+          </Box>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              Receipts
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.receipts.toLocaleString()}
+            </Text>
+          </Box>
+        </HStack>
+        <HStack>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              Contracts
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.contracts.toLocaleString()}
+            </Text>
+          </Box>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              ERC20 Transfers
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.erc20_transfers.toLocaleString()}
+            </Text>
+          </Box>
+        </HStack>
+        <HStack>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              DEX Trades
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.dex_trades.toLocaleString()}
+            </Text>
+          </Box>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              ERC721 Transfers
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.erc721_transfers.toLocaleString()}
+            </Text>
+          </Box>
+        </HStack>
+        <HStack>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              ERC1155 Transfers
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.erc1155_transfers.toLocaleString()}
+            </Text>
+          </Box>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              Logs
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.logs.toLocaleString()}
             </Text>
           </Box>
         </HStack>
@@ -60,7 +142,7 @@ function ChainPanel({
             <Center>
               <Box position="absolute" top="34px">
                 <Text fontSize="sm" fontWeight="bold" textAlign="center">
-                  {last_block === -1 ? '-' : progress.toFixed(2)}%
+                  {chainData.last_block === -1 ? '-' : progress.toFixed(2)}%
                 </Text>
               </Box>
             </Center>
@@ -72,83 +154,199 @@ function ChainPanel({
 }
 
 export function ChainsBlocks() {
-  const [isLoading, setLoading] = useState(true)
+  const { isLoading: isLoadingChainsData, data: chainsData } = useChainsInfo()
+  const { isLoading: isLoadingChainsLastBlock, data: chainsLastBlock } = useChainLastBlock()
 
-  const [chainsInfo, setChainsInfo] = useState<
-    | {
-        chain: number
-        indexed_blocks: number
-        last_block: number
-      }[]
-    | undefined
-  >(undefined)
+  const [chainsInformation, setChainInformation] = useState<
+    {
+      blocks: number
+      chain: number
+      contracts: number
+      dex_trades: number
+      erc20_transfers: number
+      erc721_transfers: number
+      transactions: number
+      last_block: number
+      receipts: number
+      logs: number
+      erc1155_transfers: number
+    }[]
+  >([])
 
-  const fetchData = useCallback(async () => {
-    const chainsLastBlocksResponse = await Promise.all(chains.map((chain) => fetchChainLastBlock(chain)))
+  useEffect(() => {
+    if (isLoadingChainsData || isLoadingChainsLastBlock || !chainsLastBlock || !chainsData) return
+    const chainsInformation: {
+      blocks: number
+      chain: number
+      contracts: number
+      dex_trades: number
+      erc20_transfers: number
+      erc721_transfers: number
+      transactions: number
+      last_block: number
+      receipts: number
+      logs: number
+      erc1155_transfers: number
+    }[] = []
 
     const chainsLastBlocks: { [k: number]: number } = {}
 
-    for (const chain of chainsLastBlocksResponse) {
-      chainsLastBlocks[chain.chain] = chain.lastBlock
+    for (const chain of chainsLastBlock) {
+      chainsLastBlocks[chain.chain] = chain.last_block
     }
 
-    const data = await fetch('https://indexer-api.kindynos.mx/status')
-
-    const chainsBlocks: {
-      data: {
-        chain: number
-        indexed_blocks: number
-      }[]
-    } = await data.json()
-
-    const chainsInfo: {
-      chain: number
-      indexed_blocks: number
-      last_block: number
-    }[] = []
-
-    for (const { chain, indexed_blocks: indexedBlocks } of chainsBlocks.data) {
-      const chainData = chainByChainId[chain]
-      if (!chainData) {
-        continue
-      }
-
-      chainsInfo.push({
-        chain: chainData.chainId,
-        indexed_blocks: indexedBlocks,
-        last_block: chainsLastBlocks[chain],
+    for (const chain of chainsData) {
+      chainsInformation.push({
+        blocks: chain.blocks,
+        chain: chain.chain,
+        contracts: chain.contracts,
+        dex_trades: chain.dex_trades,
+        erc20_transfers: chain.erc20_transfers,
+        erc721_transfers: chain.erc721_transfers,
+        erc1155_transfers: chain.erc1155_transfers,
+        last_block: chainsLastBlocks[chain.chain],
+        logs: chain.logs,
+        receipts: chain.receipts,
+        transactions: chain.transactions,
       })
     }
 
-    setChainsInfo(chainsInfo)
-    setLoading(false)
-  }, [])
-
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    setChainInformation(chainsInformation)
+  }, [chainsData, chainsLastBlock, isLoadingChainsData, isLoadingChainsLastBlock])
 
   return (
     <Stack paddingY="5" width="full">
-      {isLoading ? (
+      {isLoadingChainsData || isLoadingChainsLastBlock ? (
         <HStack align="center" justifyContent="center">
           <Spinner size="xl" />
         </HStack>
       ) : (
-        <Flex flexDirection="row" justifyContent="center" width="full">
-          <SimpleGrid columns={{ base: 1, md: 2 }} maxWidth="600px" spacingX="5" width="full">
-            {chainsInfo &&
-              chainsInfo.map((chainInfo) => (
-                <HStack key={`ChainInfo_${chainInfo.chain}`} justifyContent="center">
-                  <ChainPanel
-                    chain={chainByChainId[chainInfo.chain]}
-                    indexed_blocks={chainInfo.indexed_blocks}
-                    last_block={chainInfo.last_block}
-                  />
+        chainsInformation && (
+          <Flex alignItems="center" flexDirection="column" justifyContent="center" width="full">
+            <Box
+              border="1px solid"
+              borderColor="inherit"
+              borderRadius="xl"
+              margin="5"
+              maxWidth="300px"
+              padding="5"
+              width="full"
+            >
+              <VStack alignContent="center" justifyContent="center">
+                <Text fontSize="sm" fontWeight="bold" marginBottom="2">
+                  Global Information
+                </Text>
+                <HStack>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      Indexed Blocks
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.blocks
+                      }, 10)}
+                    </Text>
+                  </Box>
+                </HStack>
+                <HStack>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      Transactions
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.transactions
+                      }, 10)}
+                    </Text>
+                  </Box>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      Receipts
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.receipts
+                      }, 10)}
+                    </Text>
+                  </Box>
+                </HStack>
+                <HStack>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      Contracts
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.contracts
+                      }, 10)}
+                    </Text>
+                  </Box>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      ERC20 Transfers
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.erc20_transfers
+                      }, 10)}
+                    </Text>
+                  </Box>
+                </HStack>
+                <HStack>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      DEX Trades
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.dex_trades
+                      }, 10)}
+                    </Text>
+                  </Box>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      ERC721 Transfers
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.erc721_transfers
+                      }, 10)}
+                    </Text>
+                  </Box>
+                </HStack>
+                <HStack>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      ERC1155 Transfers
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.erc1155_transfers
+                      }, 10)}
+                    </Text>
+                  </Box>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      Logs
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {chainsInformation.reduce((a, b) => {
+                        return a + b.logs
+                      }, 10)}
+                    </Text>
+                  </Box>
+                </HStack>
+              </VStack>
+            </Box>
+            <SimpleGrid columns={{ base: 1, md: 2 }} maxWidth="600px" spacingX="5" width="full">
+              {chainsInformation.map((chainData) => (
+                <HStack key={`ChainInfo_${chainData.chain}`} justifyContent="center">
+                  <ChainPanel chain={chainByChainId[chainData.chain]} chainData={chainData} />
                 </HStack>
               ))}
-          </SimpleGrid>
-        </Flex>
+            </SimpleGrid>
+          </Flex>
+        )
       )}
     </Stack>
   )
