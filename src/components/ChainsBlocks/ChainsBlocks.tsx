@@ -173,6 +173,22 @@ export function ChainsBlocks() {
     }[]
   >([])
 
+  const [globalInformation, setGlobalInformation] = useState<
+    | {
+        blocks: number
+        contracts: number
+        dex_trades: number
+        erc20_transfers: number
+        erc721_transfers: number
+        transactions: number
+        last_block: number
+        receipts: number
+        logs: number
+        erc1155_transfers: number
+      }
+    | undefined
+  >(undefined)
+
   useEffect(() => {
     if (isLoadingChainsData || isLoadingChainsLastBlock || !chainsLastBlock || !chainsData) return
     const chainsInformation: {
@@ -195,22 +211,57 @@ export function ChainsBlocks() {
       chainsLastBlocks[chain.chain] = chain.last_block
     }
 
-    for (const chain of chainsData) {
-      chainsInformation.push({
-        blocks: chain.blocks,
-        chain: chain.chain,
-        contracts: chain.contracts,
-        dex_trades: chain.dex_trades,
-        erc20_transfers: chain.erc20_transfers,
-        erc721_transfers: chain.erc721_transfers,
-        erc1155_transfers: chain.erc1155_transfers,
-        last_block: chainsLastBlocks[chain.chain],
-        logs: chain.logs,
-        receipts: chain.receipts,
-        transactions: chain.transactions,
-      })
+    const globalInformation = {
+      blocks: 0,
+      contracts: 0,
+      dex_trades: 0,
+      erc20_transfers: 0,
+      erc721_transfers: 0,
+      erc1155_transfers: 0,
+      last_block: 0,
+      logs: 0,
+      receipts: 0,
+      transactions: 0,
     }
 
+    for (const chain of chainsData) {
+      const blocks = parseInt(chain.blocks)
+      const chainId = parseInt(chain.chain)
+      const contracts = parseInt(chain.contracts)
+      const dexTrades = parseInt(chain.dex_trades)
+      const erc20Transfers = parseInt(chain.erc20_transfers)
+      const erc721Transfers = parseInt(chain.erc721_transfers)
+      const erc1155Transfers = parseInt(chain.erc1155_transfers)
+      const logs = parseInt(chain.logs)
+      const receipts = parseInt(chain.receipts)
+      const transactions = parseInt(chain.transactions)
+
+      chainsInformation.push({
+        blocks,
+        chain: chainId,
+        contracts,
+        dex_trades: dexTrades,
+        erc20_transfers: erc20Transfers,
+        erc721_transfers: erc721Transfers,
+        erc1155_transfers: erc1155Transfers,
+        last_block: chainsLastBlocks[chain.chain],
+        logs,
+        receipts,
+        transactions,
+      })
+
+      globalInformation.blocks += blocks
+      globalInformation.contracts += contracts
+      globalInformation.dex_trades += dexTrades
+      globalInformation.erc20_transfers += erc20Transfers
+      globalInformation.erc721_transfers += erc721Transfers
+      globalInformation.erc1155_transfers += erc1155Transfers
+      globalInformation.logs += logs
+      globalInformation.receipts += receipts
+      globalInformation.transactions += transactions
+    }
+
+    setGlobalInformation(globalInformation)
     setChainInformation(chainsInformation)
   }, [chainsData, chainsLastBlock, isLoadingChainsData, isLoadingChainsLastBlock])
 
@@ -221,7 +272,8 @@ export function ChainsBlocks() {
           <Spinner size="xl" />
         </HStack>
       ) : (
-        chainsInformation && (
+        chainsInformation &&
+        globalInformation && (
           <Flex alignItems="center" flexDirection="column" justifyContent="center" width="full">
             <Box
               border="1px solid"
@@ -242,9 +294,7 @@ export function ChainsBlocks() {
                       Indexed Blocks
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.blocks
-                      }, 10)}
+                      {globalInformation.blocks}
                     </Text>
                   </Box>
                 </HStack>
@@ -254,9 +304,7 @@ export function ChainsBlocks() {
                       Transactions
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.transactions
-                      }, 10)}
+                      {globalInformation.transactions}
                     </Text>
                   </Box>
                   <Box width="120px">
@@ -264,9 +312,7 @@ export function ChainsBlocks() {
                       Receipts
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.receipts
-                      }, 10)}
+                      {globalInformation.receipts}
                     </Text>
                   </Box>
                 </HStack>
@@ -276,9 +322,7 @@ export function ChainsBlocks() {
                       Contracts
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.contracts
-                      }, 10)}
+                      {globalInformation.contracts}
                     </Text>
                   </Box>
                   <Box width="120px">
@@ -286,9 +330,7 @@ export function ChainsBlocks() {
                       ERC20 Transfers
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.erc20_transfers
-                      }, 10)}
+                      {globalInformation.erc20_transfers}
                     </Text>
                   </Box>
                 </HStack>
@@ -298,9 +340,7 @@ export function ChainsBlocks() {
                       DEX Trades
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.dex_trades
-                      }, 10)}
+                      {globalInformation.dex_trades}
                     </Text>
                   </Box>
                   <Box width="120px">
@@ -308,9 +348,7 @@ export function ChainsBlocks() {
                       ERC721 Transfers
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.erc721_transfers
-                      }, 10)}
+                      {globalInformation.erc721_transfers}
                     </Text>
                   </Box>
                 </HStack>
@@ -320,9 +358,7 @@ export function ChainsBlocks() {
                       ERC1155 Transfers
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.erc1155_transfers
-                      }, 10)}
+                      {globalInformation.erc1155_transfers}
                     </Text>
                   </Box>
                   <Box width="120px">
@@ -330,9 +366,7 @@ export function ChainsBlocks() {
                       Logs
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {chainsInformation.reduce((a, b) => {
-                        return a + b.logs
-                      }, 10)}
+                      {globalInformation.logs}
                     </Text>
                   </Box>
                 </HStack>

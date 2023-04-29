@@ -2,16 +2,16 @@ import { useQuery } from '@tanstack/react-query'
 
 export async function fetchChainsInfo(): Promise<
   {
-    blocks: number
-    chain: number
-    contracts: number
-    dex_trades: number
-    erc20_transfers: number
-    erc721_transfers: number
-    erc1155_transfers: number
-    transactions: number
-    receipts: number
-    logs: number
+    blocks: string
+    chain: string
+    contracts: string
+    dex_trades: string
+    erc20_transfers: string
+    erc721_transfers: string
+    erc1155_transfers: string
+    transactions: string
+    receipts: string
+    logs: string
   }[]
 > {
   const res = await fetch('https://indexer-api.kindynos.mx/status')
@@ -26,16 +26,16 @@ export function useChainsInfo(): {
   isError: boolean
   data:
     | {
-        blocks: number
-        chain: number
-        contracts: number
-        dex_trades: number
-        receipts: number
-        erc20_transfers: number
-        erc721_transfers: number
-        erc1155_transfers: number
-        transactions: number
-        logs: number
+        blocks: string
+        chain: string
+        contracts: string
+        dex_trades: string
+        erc20_transfers: string
+        erc721_transfers: string
+        erc1155_transfers: string
+        transactions: string
+        receipts: string
+        logs: string
       }[]
     | undefined
 } {
