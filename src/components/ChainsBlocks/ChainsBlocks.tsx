@@ -141,7 +141,7 @@ function ChainPanel({
         <HStack>
           <Box width="120px">
             <Text fontSize="xs" textAlign="center">
-              ERC1155 Transfers
+              Traces
             </Text>
             <Text fontSize="xs" fontWeight="bold" textAlign="center">
               {chainData.traces.toLocaleString()}
