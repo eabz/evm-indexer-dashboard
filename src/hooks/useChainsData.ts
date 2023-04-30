@@ -12,6 +12,7 @@ export async function fetchChainsInfo(): Promise<
     transactions: string
     receipts: string
     logs: string
+    traces: string
   }[]
 > {
   const res = await fetch('https://indexer-api.kindynos.mx/status')
@@ -36,6 +37,7 @@ export function useChainsInfo(): {
         transactions: string
         receipts: string
         logs: string
+        traces: string
       }[]
     | undefined
 } {

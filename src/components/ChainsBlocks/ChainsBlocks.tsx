@@ -26,6 +26,7 @@ function ChainPanel({
     last_block: number
     logs: number
     erc1155_transfers: number
+    traces: number
   }
 }) {
   const progress = chainData.last_block === -1 ? 0 : (chainData.blocks / chainData.last_block) * 100
@@ -137,6 +138,16 @@ function ChainPanel({
             </Text>
           </Box>
         </HStack>
+        <HStack>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              ERC1155 Transfers
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.traces.toLocaleString()}
+            </Text>
+          </Box>
+        </HStack>
         <Box paddingY="2">
           <CircularProgress size="90px" value={progress}>
             <Center>
@@ -170,6 +181,7 @@ export function ChainsBlocks() {
       receipts: number
       logs: number
       erc1155_transfers: number
+      traces: number
     }[]
   >([])
 
@@ -185,6 +197,7 @@ export function ChainsBlocks() {
         receipts: number
         logs: number
         erc1155_transfers: number
+        traces: number
       }
     | undefined
   >(undefined)
@@ -203,6 +216,7 @@ export function ChainsBlocks() {
       receipts: number
       logs: number
       erc1155_transfers: number
+      traces: number
     }[] = []
 
     const chainsLastBlocks: { [k: number]: number } = {}
@@ -221,6 +235,7 @@ export function ChainsBlocks() {
       last_block: 0,
       logs: 0,
       receipts: 0,
+      traces: 0,
       transactions: 0,
     }
 
@@ -235,6 +250,7 @@ export function ChainsBlocks() {
       const logs = parseInt(chain.logs)
       const receipts = parseInt(chain.receipts)
       const transactions = parseInt(chain.transactions)
+      const traces = parseInt(chain.traces)
 
       chainsInformation.push({
         blocks,
@@ -247,6 +263,7 @@ export function ChainsBlocks() {
         last_block: chainsLastBlocks[chain.chain],
         logs,
         receipts,
+        traces,
         transactions,
       })
 
@@ -259,6 +276,7 @@ export function ChainsBlocks() {
       globalInformation.logs += logs
       globalInformation.receipts += receipts
       globalInformation.transactions += transactions
+      globalInformation.traces += traces
     }
 
     setGlobalInformation(globalInformation)
@@ -295,6 +313,14 @@ export function ChainsBlocks() {
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
                       {globalInformation.blocks.toLocaleString()}
+                    </Text>
+                  </Box>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      Traces
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {globalInformation.traces.toLocaleString()}
                     </Text>
                   </Box>
                 </HStack>
