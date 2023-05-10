@@ -5,12 +5,7 @@ export async function fetchChainsInfo(): Promise<
     blocks: string
     chain: string
     contracts: string
-    dex_trades: string
-    erc20_transfers: string
-    erc721_transfers: string
-    erc1155_transfers: string
     transactions: string
-    receipts: string
     logs: string
     traces: string
   }[]
@@ -30,12 +25,7 @@ export function useChainsInfo(): {
         blocks: string
         chain: string
         contracts: string
-        dex_trades: string
-        erc20_transfers: string
-        erc721_transfers: string
-        erc1155_transfers: string
         transactions: string
-        receipts: string
         logs: string
         traces: string
       }[]

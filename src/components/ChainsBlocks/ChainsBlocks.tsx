@@ -19,13 +19,8 @@ function ChainPanel({
     chain: number
     contracts: number
     transactions: number
-    dex_trades: number
-    erc20_transfers: number
-    erc721_transfers: number
-    receipts: number
     last_block: number
     logs: number
-    erc1155_transfers: number
     traces: number
   }
 }) {
@@ -77,58 +72,14 @@ function ChainPanel({
           </Box>
           <Box width="120px">
             <Text fontSize="xs" textAlign="center">
-              Receipts
-            </Text>
-            <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {chainData.receipts.toLocaleString()}
-            </Text>
-          </Box>
-        </HStack>
-        <HStack>
-          <Box width="120px">
-            <Text fontSize="xs" textAlign="center">
               Contracts
             </Text>
             <Text fontSize="xs" fontWeight="bold" textAlign="center">
               {chainData.contracts.toLocaleString()}
             </Text>
           </Box>
-          <Box width="120px">
-            <Text fontSize="xs" textAlign="center">
-              ERC20 Transfers
-            </Text>
-            <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {chainData.erc20_transfers.toLocaleString()}
-            </Text>
-          </Box>
         </HStack>
         <HStack>
-          <Box width="120px">
-            <Text fontSize="xs" textAlign="center">
-              DEX Trades
-            </Text>
-            <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {chainData.dex_trades.toLocaleString()}
-            </Text>
-          </Box>
-          <Box width="120px">
-            <Text fontSize="xs" textAlign="center">
-              ERC721 Transfers
-            </Text>
-            <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {chainData.erc721_transfers.toLocaleString()}
-            </Text>
-          </Box>
-        </HStack>
-        <HStack>
-          <Box width="120px">
-            <Text fontSize="xs" textAlign="center">
-              ERC1155 Transfers
-            </Text>
-            <Text fontSize="xs" fontWeight="bold" textAlign="center">
-              {chainData.erc1155_transfers.toLocaleString()}
-            </Text>
-          </Box>
           <Box width="120px">
             <Text fontSize="xs" textAlign="center">
               Logs
@@ -137,8 +88,6 @@ function ChainPanel({
               {chainData.logs.toLocaleString()}
             </Text>
           </Box>
-        </HStack>
-        <HStack>
           <Box width="120px">
             <Text fontSize="xs" textAlign="center">
               Traces
@@ -173,14 +122,9 @@ export function ChainsBlocks() {
       blocks: number
       chain: number
       contracts: number
-      dex_trades: number
-      erc20_transfers: number
-      erc721_transfers: number
       transactions: number
       last_block: number
-      receipts: number
       logs: number
-      erc1155_transfers: number
       traces: number
     }[]
   >([])
@@ -189,14 +133,9 @@ export function ChainsBlocks() {
     | {
         blocks: number
         contracts: number
-        dex_trades: number
-        erc20_transfers: number
-        erc721_transfers: number
         transactions: number
         last_block: number
-        receipts: number
         logs: number
-        erc1155_transfers: number
         traces: number
       }
     | undefined
@@ -208,14 +147,9 @@ export function ChainsBlocks() {
       blocks: number
       chain: number
       contracts: number
-      dex_trades: number
-      erc20_transfers: number
-      erc721_transfers: number
       transactions: number
       last_block: number
-      receipts: number
       logs: number
-      erc1155_transfers: number
       traces: number
     }[] = []
 
@@ -228,13 +162,8 @@ export function ChainsBlocks() {
     const globalInformation = {
       blocks: 0,
       contracts: 0,
-      dex_trades: 0,
-      erc20_transfers: 0,
-      erc721_transfers: 0,
-      erc1155_transfers: 0,
       last_block: 0,
       logs: 0,
-      receipts: 0,
       traces: 0,
       transactions: 0,
     }
@@ -243,12 +172,7 @@ export function ChainsBlocks() {
       const blocks = parseInt(chain.blocks)
       const chainId = parseInt(chain.chain)
       const contracts = parseInt(chain.contracts)
-      const dexTrades = parseInt(chain.dex_trades)
-      const erc20Transfers = parseInt(chain.erc20_transfers)
-      const erc721Transfers = parseInt(chain.erc721_transfers)
-      const erc1155Transfers = parseInt(chain.erc1155_transfers)
       const logs = parseInt(chain.logs)
-      const receipts = parseInt(chain.receipts)
       const transactions = parseInt(chain.transactions)
       const traces = parseInt(chain.traces)
 
@@ -256,25 +180,15 @@ export function ChainsBlocks() {
         blocks,
         chain: chainId,
         contracts,
-        dex_trades: dexTrades,
-        erc20_transfers: erc20Transfers,
-        erc721_transfers: erc721Transfers,
-        erc1155_transfers: erc1155Transfers,
         last_block: chainsLastBlocks[chain.chain],
         logs,
-        receipts,
         traces,
         transactions,
       })
 
       globalInformation.blocks += blocks
       globalInformation.contracts += contracts
-      globalInformation.dex_trades += dexTrades
-      globalInformation.erc20_transfers += erc20Transfers
-      globalInformation.erc721_transfers += erc721Transfers
-      globalInformation.erc1155_transfers += erc1155Transfers
       globalInformation.logs += logs
-      globalInformation.receipts += receipts
       globalInformation.transactions += transactions
       globalInformation.traces += traces
     }
@@ -335,58 +249,14 @@ export function ChainsBlocks() {
                   </Box>
                   <Box width="120px">
                     <Text fontSize="xs" textAlign="center">
-                      Receipts
-                    </Text>
-                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.receipts.toLocaleString()}
-                    </Text>
-                  </Box>
-                </HStack>
-                <HStack>
-                  <Box width="120px">
-                    <Text fontSize="xs" textAlign="center">
                       Contracts
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
                       {globalInformation.contracts.toLocaleString()}
                     </Text>
                   </Box>
-                  <Box width="120px">
-                    <Text fontSize="xs" textAlign="center">
-                      ERC20 Transfers
-                    </Text>
-                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.erc20_transfers.toLocaleString()}
-                    </Text>
-                  </Box>
                 </HStack>
                 <HStack>
-                  <Box width="120px">
-                    <Text fontSize="xs" textAlign="center">
-                      DEX Trades
-                    </Text>
-                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.dex_trades.toLocaleString()}
-                    </Text>
-                  </Box>
-                  <Box width="120px">
-                    <Text fontSize="xs" textAlign="center">
-                      ERC721 Transfers
-                    </Text>
-                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.erc721_transfers.toLocaleString()}
-                    </Text>
-                  </Box>
-                </HStack>
-                <HStack>
-                  <Box width="120px">
-                    <Text fontSize="xs" textAlign="center">
-                      ERC1155 Transfers
-                    </Text>
-                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
-                      {globalInformation.erc1155_transfers.toLocaleString()}
-                    </Text>
-                  </Box>
                   <Box width="120px">
                     <Text fontSize="xs" textAlign="center">
                       Logs
