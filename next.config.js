@@ -22,6 +22,11 @@ const config = {
   experimental: {
     appDir: true,
   },
+  images: {
+    dangerouslyAllowSVG: true,
+    domains: ['imagedelivery.net'],
+    unoptimized: true,
+  },
   reactStrictMode: true,
   sentry: {
     hideSourceMaps: true,
