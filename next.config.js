@@ -21,9 +21,9 @@ if (process.env.NODE_ENV === 'development') {
 const config = {
   experimental: {
     appDir: true,
+    runtime: 'experimental-edge',
   },
   images: {
-    dangerouslyAllowSVG: true,
     domains: ['imagedelivery.net'],
     unoptimized: true,
   },
