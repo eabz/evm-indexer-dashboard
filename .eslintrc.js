@@ -28,7 +28,6 @@ module.exports = {
     'simple-import-sort',
     'sort-keys-custom-order-fix',
     'unused-imports',
-    'chakra-ui',
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 'off',
@@ -53,16 +52,6 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    'chakra-ui/props-order': 'off',
-    'chakra-ui/props-shorthand': [
-      'error',
-      {
-        applyToAllComponents: true,
-        noShorthand: true,
-      },
-    ],
-    'chakra-ui/require-specific-component': 'error',
-
     'no-restricted-imports': [
       'error',
       {

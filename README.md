@@ -12,31 +12,28 @@ This project uses lot of stuff as:
 - [Eslint](https://eslint.org)
 - [Prettier](https://prettier.io)
 - [Husky](https://github.com/typicode/husky)
-- [Sentry](https://sentry.io/)
-- [next-pwa](https://www.npmjs.com/package/next-pwa)
 
 ## Getting Started
 
 First of all, install the dependencies to run this app:
 
 - [NodeJS](https://nodejs.org)
-- [Yarn](https://classic.yarnpkg.com/en/docs/cli/install/)
 
 ```bash
 # Clone this repository
 $ git clone https://github.com/kindynosmx/evm-indexer-dashboard && cd evm-indexer-dashboard
 
 # Install dependencies
-$ yarn install
+$ pnpm install
 
 # Compiles and hot-reloads for development
-$ yarn dev
+$ pnpm dev
 
 # Compiles and minifies for production
-$ yarn build
+$ pnpm build
 
 # Lints and fixes files
-$ yarn lint
+$ pnpm lint
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

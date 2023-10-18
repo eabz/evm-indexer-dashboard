@@ -73,6 +73,7 @@ export const defaultMetadata: Metadata = {
     shortcut: ['https://imagedelivery.net/vgqvCj4Mw_NLJNB76Px9jg/8caf730a-537f-44bc-f0de-6d1d3360c500/public'],
   },
   manifest: '/static/manifest.json',
+  metadataBase: new URL(url),
   openGraph: {
     description,
     title,
