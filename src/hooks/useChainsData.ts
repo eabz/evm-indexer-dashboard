@@ -8,9 +8,13 @@ export async function fetchChainsInfo(): Promise<
     transactions: string
     logs: string
     traces: string
+    erc20Transfers: string
+    erc721Transfers: string
+    erc1155Transfers: string
+    dexTrades: string
   }[]
 > {
-  const res = await fetch('https://indexer-api.kindynos.mx/status')
+  const res = await fetch('https://indexer-stats.kindynos.mx/status')
 
   const { data } = await res.json()
 
@@ -28,6 +32,10 @@ export function useChainsInfo(): {
         transactions: string
         logs: string
         traces: string
+        erc20Transfers: string
+        erc721Transfers: string
+        erc1155Transfers: string
+        dexTrades: string
       }[]
     | undefined
 } {

@@ -126,6 +126,10 @@ export function ChainsBlocks() {
       last_block: number
       logs: number
       traces: number
+      erc20Transfers: number
+      erc721Transfers: number
+      erc1155Transfers: number
+      dexTrades: number
     }[]
   >([])
 
@@ -137,6 +141,10 @@ export function ChainsBlocks() {
         last_block: number
         logs: number
         traces: number
+        erc20Transfers: number
+        erc721Transfers: number
+        erc1155Transfers: number
+        dexTrades: number
       }
     | undefined
   >(undefined)
@@ -151,6 +159,10 @@ export function ChainsBlocks() {
       last_block: number
       logs: number
       traces: number
+      erc20Transfers: number
+      erc721Transfers: number
+      erc1155Transfers: number
+      dexTrades: number
     }[] = []
 
     const chainsLastBlocks: { [k: number]: number } = {}
@@ -162,6 +174,10 @@ export function ChainsBlocks() {
     const globalInformation = {
       blocks: 0,
       contracts: 0,
+      dexTrades: 0,
+      erc20Transfers: 0,
+      erc721Transfers: 0,
+      erc1155Transfers: 0,
       last_block: 0,
       logs: 0,
       traces: 0,
@@ -175,11 +191,19 @@ export function ChainsBlocks() {
       const logs = parseInt(chain.logs)
       const transactions = parseInt(chain.transactions)
       const traces = parseInt(chain.traces)
+      const erc20Transfers = parseInt(chain.erc20Transfers)
+      const erc721Transfers = parseInt(chain.erc721Transfers)
+      const erc1155Transfers = parseInt(chain.erc1155Transfers)
+      const dexTrades = parseInt(chain.dexTrades)
 
       chainsInformation.push({
         blocks,
         chain: chainId,
         contracts,
+        dexTrades,
+        erc20Transfers,
+        erc721Transfers,
+        erc1155Transfers,
         last_block: chainsLastBlocks[chain.chain],
         logs,
         traces,
@@ -191,6 +215,10 @@ export function ChainsBlocks() {
       globalInformation.logs += logs
       globalInformation.transactions += transactions
       globalInformation.traces += traces
+      globalInformation.erc20Transfers += erc20Transfers
+      globalInformation.erc721Transfers += erc721Transfers
+      globalInformation.erc1155Transfers += erc1155Transfers
+      globalInformation.dexTrades += dexTrades
     }
 
     setGlobalInformation(globalInformation)
