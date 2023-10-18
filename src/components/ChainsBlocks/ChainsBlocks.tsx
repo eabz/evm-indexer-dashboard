@@ -41,7 +41,7 @@ function ChainPanel({
           {chain.name}
         </Text>
         <Box>
-          <NextImage alt={`${chain.name} Logo`} height="60" src={`/images/chains/${chain.logoUrl}`} width="60" />
+          <NextImage alt={`${chain.name} Logo`} height="60" src={chain.logoUrl} width="60" />
         </Box>
         <HStack>
           <Box width="120px">

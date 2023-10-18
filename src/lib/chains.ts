@@ -12,9 +12,9 @@ export const chains: IChainInfo[] = [
   {
     id: 'ethereum',
     chainId: 1,
-    logoUrl: 'ethereum-logo.svg',
+    logoUrl: 'https://imagedelivery.net/vgqvCj4Mw_NLJNB76Px9jg/2fe40d3b-9053-4867-4832-f2a663b7de00/public',
     name: 'Ethereum',
-    rpcUrl: 'https://imagedelivery.net/vgqvCj4Mw_NLJNB76Px9jg/2fe40d3b-9053-4867-4832-f2a663b7de00/public',
+    rpcUrl: 'https://eth.llamarpc.com',
   },
   {
     id: 'polygon',
