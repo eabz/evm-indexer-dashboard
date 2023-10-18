@@ -22,6 +22,10 @@ function ChainPanel({
     last_block: number
     logs: number
     traces: number
+    erc20Transfers: number
+    erc721Transfers: number
+    erc1155Transfers: number
+    dexTrades: number
   }
 }) {
   const progress = chainData.last_block === -1 ? 0 : (chainData.blocks / chainData.last_block) * 100
@@ -94,6 +98,42 @@ function ChainPanel({
             </Text>
             <Text fontSize="xs" fontWeight="bold" textAlign="center">
               {chainData.traces.toLocaleString()}
+            </Text>
+          </Box>
+        </HStack>
+        <HStack>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              ERC20 Transfers
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.erc20Transfers.toLocaleString()}
+            </Text>
+          </Box>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              ERC721 Transfers
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.erc721Transfers.toLocaleString()}
+            </Text>
+          </Box>
+        </HStack>
+        <HStack>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              ERC1155 Transfers
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.erc1155Transfers.toLocaleString()}
+            </Text>
+          </Box>
+          <Box width="120px">
+            <Text fontSize="xs" textAlign="center">
+              Dex Trades
+            </Text>
+            <Text fontSize="xs" fontWeight="bold" textAlign="center">
+              {chainData.dexTrades.toLocaleString()}
             </Text>
           </Box>
         </HStack>
@@ -281,6 +321,42 @@ export function ChainsBlocks() {
                     </Text>
                     <Text fontSize="xs" fontWeight="bold" textAlign="center">
                       {globalInformation.contracts.toLocaleString()}
+                    </Text>
+                  </Box>
+                </HStack>
+                <HStack>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      ERC20 Transfers
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {globalInformation.erc20Transfers.toLocaleString()}
+                    </Text>
+                  </Box>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      ERC721 Transfers
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {globalInformation.erc721Transfers.toLocaleString()}
+                    </Text>
+                  </Box>
+                </HStack>
+                <HStack>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      ERC1155 Transfers
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {globalInformation.erc1155Transfers.toLocaleString()}
+                    </Text>
+                  </Box>
+                  <Box width="120px">
+                    <Text fontSize="xs" textAlign="center">
+                      Dex Trades
+                    </Text>
+                    <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                      {globalInformation.dexTrades.toLocaleString()}
                     </Text>
                   </Box>
                 </HStack>
